@@ -3,7 +3,6 @@ package Sistema;
 import Datos.Juego;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -12,20 +11,19 @@ public class Encuentro {
 
     private String titulo;
     private Date fecha;
-    private String[] participantes;
+    private List<Participante> participantes;
     private List<Juego> seleccion;
-    private String ganador;
+    private Participante ganador;
 
 
-    public Encuentro(String titulo, Date fecha, String[] jugadores, List<Juego> juegos) {
-
+    public Encuentro(String titulo, Date fecha, List<Participante> jugadores, List<Juego> juegos) {
         this.titulo = titulo;
         this.fecha = fecha;
         participantes = jugadores;
         seleccion = juegos;
     }
 
-    public Encuentro(Date fecha, String[] jugadores, List<Juego> juegos) {
+    public Encuentro(Date fecha, List<Participante> jugadores, List<Juego> juegos) {
         this.titulo = generarTitulo(juegos);
         this.fecha = fecha;
         participantes = jugadores;
@@ -49,11 +47,11 @@ public class Encuentro {
         this.fecha = fecha;
     }
 
-    public String[] getParticipantes() {
+    public List<Participante> getParticipantes() {
         return participantes;
     }
 
-    public void setParticipantes(String[] participantes) {
+    public void setParticipantes(List<Participante> participantes) {
         this.participantes = participantes;
     }
 
@@ -65,11 +63,11 @@ public class Encuentro {
         this.seleccion = seleccion;
     }
 
-    public String getGanador() {
+    public Participante getGanador() {
         return ganador;
     }
 
-    public void setGanador(String ganador) {
+    public void setGanador(Participante ganador) {
         this.ganador = ganador;
     }
 
@@ -122,7 +120,7 @@ public class Encuentro {
 
         mensaje.append(titulo.toUpperCase() + " - ");
         mensaje.append(new SimpleDateFormat("(dd-MM-yyyy) (HH:mm)").format(fecha) + " - ");     // Formato simple
-        mensaje.append(Arrays.toString(participantes) + "\n");                                          // Formato normal
+        mensaje.append(participantes + "\n");                                          // Formato normal
 
         Iterator<Juego> it = seleccion.iterator();
 
@@ -138,7 +136,7 @@ public class Encuentro {
         }
 
         mensaje.append(lista.toString() + "\n");
-        mensaje.append("Ganador: " + ganador);
+        mensaje.append("Ganador: " + ganador.getNombre());
 
         return mensaje.toString();
     }
