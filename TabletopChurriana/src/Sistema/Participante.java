@@ -2,7 +2,6 @@ package Sistema;
 
 import Datos.Juego;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,26 +9,29 @@ public class Participante {
 
     private String nombre;
     private int puntos;
-    private int victorias;
     private List<Juego> juegos;
-    private String favorito;
+    private Juego favorito;
 
-    public Participante(String alias, List<Juego> juegos) {
-        nombre = alias;
-        puntos = 0;
-        victorias = 0;
-        this.juegos = juegos;
+
+    public Participante(String alias, List<Juego> juegos, Juego favorito) {
+        this(alias, juegos);
+        this.favorito = favorito;
 
         if(juegos.size() == 1) {
-            favorito = juegos.get(0).getNombre();
-
-        } else {
-            favorito = "¿¿¿???";
+            this.favorito = juegos.get(0);
         }
     }
 
+    public Participante(String alias, List<Juego> juegos) {
+        this(alias);
+        this.juegos = juegos;
+    }
+
     public Participante(String alias) {
-        this(alias, new LinkedList<>());
+        nombre = alias;
+        puntos = 0;
+        juegos = new LinkedList<>();
+        favorito = null;
     }
 
 
@@ -49,14 +51,6 @@ public class Participante {
         this.puntos = puntos;
     }
 
-    public int getVictorias() {
-        return victorias;
-    }
-
-    public void setVictorias(int victorias) {
-        this.victorias = victorias;
-    }
-
     public List<Juego> getJuegos() {
         return juegos;
     }
@@ -65,35 +59,18 @@ public class Participante {
         this.juegos = juegos;
     }
 
-    public String getFavorito() {
+    public Juego getFavorito() {
         return favorito;
     }
 
-    public void setFavorito(String nombre) {
-        favorito = nombre;
+    public void setFavorito(Juego favorito) {
+        this.favorito = favorito;
     }
 
 
     @Override
     public String toString() {
-        StringBuilder mensaje = new StringBuilder();
-        StringBuilder lista = new StringBuilder();
 
-        Iterator<Juego> it = juegos.iterator();
-
-        while(it.hasNext()) {
-            Juego juego = it.next();
-
-            if(it.hasNext()) {
-                lista.append(juego.getNombre() + ", ");
-
-            } else {
-                lista.append(juego.getNombre() + "]");
-            }
-        }
-
-        mensaje.append(nombre).append(" ").append(lista.toString());
-
-        return nombre;
+        return nombre + " (" + puntos + ")";
     }
 }
