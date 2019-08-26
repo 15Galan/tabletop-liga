@@ -8,6 +8,7 @@ public class Juego {
     private String nombre;
     private String dueno;
     private int jugadoresMAX;
+    private int duracion;
 
     // Variables para el sistema
     private Categoria categoria;
@@ -15,17 +16,37 @@ public class Juego {
     private List<Expansion> expansiones;
 
 
-    public Juego(String nombre, String dueno, int jugadoresMAX, Categoria categoria, List<Expansion> expansiones) {
-        this(nombre, dueno, jugadoresMAX, categoria);
+    public Juego(String nombre, String dueno, int jugadoresMAX, int minutos, Categoria categoria, double porcentaje, List<Expansion> expansiones) {
+        this(nombre, dueno, jugadoresMAX, minutos, categoria, porcentaje);
         this.expansiones = expansiones;
     }
 
-    public Juego(String nombre, String dueno, int jugadoresMAX, Categoria categoria) {
+    public Juego(String nombre, String dueno, int jugadoresMAX, int minutos, Categoria categoria, double porcentaje) {
+        this(nombre, dueno, jugadoresMAX, minutos, categoria);
+        this.porcentaje = porcentaje;
+    }
+
+    public Juego(String nombre, String dueno, int jugadoresMAX, int minutos, Categoria categoria) {
+        this(nombre, dueno, jugadoresMAX, minutos);
+        this.categoria = categoria;
+    }
+
+    public Juego(String nombre, String dueno, int jugadoresMAX, int minutos) {
         this.nombre = nombre;
         this.dueno = dueno;
         this.jugadoresMAX = jugadoresMAX;
+        duracion = minutos;
 
-        this.categoria = categoria;
+        if(minutos <= 30) {
+            categoria = Categoria.CORTO;
+
+        } else if(minutos <= 60) {
+            categoria = Categoria.NORMAL;
+
+        } else {
+            categoria = Categoria.LARGO;
+        }
+
         porcentaje = 100;
         expansiones = new LinkedList<>();
     }
@@ -55,6 +76,14 @@ public class Juego {
         this.jugadoresMAX = jugadoresMAX;
     }
 
+    public int getDuracion() {
+        return duracion;
+    }
+
+    public void setDuracion(int duracion) {
+        this.duracion = duracion;
+    }
+
     public Categoria getCategoria() {
         return categoria;
     }
@@ -68,7 +97,22 @@ public class Juego {
     }
 
     public void setPorcentaje(double porcentaje) {
-        this.porcentaje = porcentaje;
+        this.porcentaje = Math.round(100 * porcentaje) / 100d;
+    }
+
+    public void sumarPorcentaje(double variacion) {
+        porcentaje += variacion;
+        setPorcentaje(porcentaje);  // Para redondear a 2 decimales
+    }
+
+    public void restarPorcentaje(double variacion) {
+        porcentaje -= variacion;
+
+        if(porcentaje < 0) {
+            porcentaje = 0;
+        }
+
+        setPorcentaje(porcentaje);  // Para redondear a 2 decimales
     }
 
     public List<Expansion> getExpansiones() {
@@ -98,6 +142,11 @@ public class Juego {
 
     @Override
     public String toString() {
-        return nombre + ", " + dueno + ", " + jugadoresMAX + ", " + expansiones;
+
+        return nombre + " |" + porcentaje + "%|, " +
+                dueno + ", " +
+                jugadoresMAX + " jugadores, " +
+                duracion + " min, " +
+                expansiones;
     }
 }

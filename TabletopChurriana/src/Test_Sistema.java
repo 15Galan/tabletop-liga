@@ -1,5 +1,6 @@
 import Datos.Categoria;
 import Datos.Juego;
+import Sistema.Eleccion;
 import Sistema.Encuentro;
 import Sistema.Participante;
 
@@ -10,19 +11,19 @@ import java.util.List;
 public class Test_Sistema {
 
     // Todos los juegos
-    static private Juego monstruoFinal_1 = new Juego("Monstruo Final", "Galán", 4, Categoria.NORMAL);
-    static private Juego monstruoFinal_3 = new Juego("Monstruo Final: Ascenso de los mini-monstruos finales", "Galán", 4, Categoria.NORMAL);
-    static private Juego isaac = new Juego("The Binding of Isaac: Four Souls", "Javi", 10, Categoria.LARGO);
-    static private Juego doom = new Juego("DOOM", "Javi", 5, Categoria.LARGO);
-    static private Juego risk = new Juego("Risk", "Luis", 6, Categoria.LARGO);
-    static private Juego fluxx = new Juego("FLUXX", "Galán", 6, Categoria.ESPECIAL);
-    static private Juego blackStories = new Juego("Blackstories (edición normal)", "Galán", 10, Categoria.ESPECIAL);
-    static private Juego jenga_uno = new Juego("UNO Stacko", "Galán", 6, Categoria.NORMAL);
-    static private Juego dos = new Juego("DOS", "Galán", 6, Categoria.CORTO);
-    static private Juego taki = new Juego("Taki", "Galán", 6, Categoria.CORTO);
-    static private Juego munchkins = new Juego("Munchkins", "Javi", 6, Categoria.NORMAL);
-    static private Juego munchkins_espacio = new Juego("Munchinks (edición espacial)", "Fran", 6, Categoria.NORMAL);
-    static private Juego fluxx_mp = new Juego("FLUXX (edición Monty Piton)", "Fran", 6, Categoria.ESPECIAL);
+    static private Juego monstruoFinal_1 = new Juego("Monstruo Final", "Galán", 4, 60);
+    static private Juego monstruoFinal_3 = new Juego("Monstruo Final: Ascenso de los mini-monstruos finales", "Galán", 4, 60);
+    static private Juego isaac = new Juego("The Binding of Isaac: Four Souls", "Javi", 10, 90);
+    static private Juego doom = new Juego("DOOM", "Javi", 5, 120);
+    static private Juego risk = new Juego("Risk", "Luis", 6, 120);
+    static private Juego fluxx = new Juego("FLUXX", "Galán", 6, 60, Categoria.ESPECIAL);
+    static private Juego blackStories = new Juego("Blackstories", "Galán", 10, 60, Categoria.ESPECIAL);
+    static private Juego jenga_uno = new Juego("UNO Stacko", "Galán", 6, 60);
+    static private Juego dos = new Juego("DOS", "Galán", 6, 15);
+    static private Juego taki = new Juego("Taki", "Galán", 6, 30);
+    static private Juego munchkins = new Juego("Munchkins", "Javi", 6, 45);
+    static private Juego munchkins_espacio = new Juego("Munchinks (edición espacial)", "Fran", 6, 45);
+    static private Juego fluxx_mp = new Juego("FLUXX (edición Monty Piton)", "Fran", 6, 60, Categoria.ESPECIAL);
 
     public static void main(String[] args) {
 
@@ -42,6 +43,16 @@ public class Test_Sistema {
         juegos_GLOBAL.add(munchkins);
         juegos_GLOBAL.add(munchkins_espacio);
         juegos_GLOBAL.add(fluxx_mp);
+
+        StringBuilder lista_juegos = new StringBuilder();
+        int cont_A = 0;
+
+        for(Juego juego : juegos_GLOBAL) {
+            juego.setPorcentaje(Math.round(100 * 100d/juegos_GLOBAL.size()) / 100d);
+            lista_juegos.append(++cont_A).append(" - ").append(juego).append("\n");
+        }
+
+        System.out.println("LISTA DE JUEGOS:\n" + lista_juegos + "\n");
 
 
         // Listas de JUEGOS/PERSONA
@@ -75,8 +86,8 @@ public class Test_Sistema {
 
 
         // Los JUGADORES
-        Participante galan = new Participante("Galán", juegos_Galan);
-        Participante javi = new Participante("Javi", juegos_Javi);
+        Participante galan = new Participante("Galán", juegos_Galan, monstruoFinal_1);
+        Participante javi = new Participante("Javi", juegos_Javi, isaac);
         Participante luis = new Participante("Luis", juegos_Luis);
         Participante fran = new Participante("Fran", juegos_Fran);
         Participante alberto = new Participante("Velasco");
@@ -90,8 +101,7 @@ public class Test_Sistema {
         participantes.add(fran);
         participantes.add(alberto);
 
-
-        System.out.println("Lista de participantes:\n" + participantes + "\n");
+        System.out.println("LISTA DE PARTICIPANTES:\n" + participantes + "\n\n");
 
 
         // Lista con juegos CORTOS
@@ -143,7 +153,7 @@ public class Test_Sistema {
         participantes2.add(javi);
         participantes2.add(luis);
 
-        Encuentro encuentro2 = new Encuentro(new Date(), participantes2, juegos_L);
+        Encuentro encuentro2 = new Encuentro(new Date(), participantes2, juegos_N);
 
         encuentro2.setGanador(participantes2.get(1));
 
@@ -154,7 +164,7 @@ public class Test_Sistema {
         participantes3.add(javi);
         participantes3.add(fran);
 
-        Encuentro encuentro3 = new Encuentro(new Date(), participantes3, juegos_X);
+        Encuentro encuentro3 = new Encuentro(new Date(), participantes3, juegos_L);
 
         encuentro3.setGanador(fran);
 
@@ -171,6 +181,58 @@ public class Test_Sistema {
         encuentro4.setGanador(alberto);
 
 
-        System.out.println(encuentro1 + "\n\n" + encuentro2 + "\n\n" + encuentro3 + "\n\n" + encuentro4);
+        System.out.println("LISTA DE ENCUENTROS:");
+        System.out.println(encuentro1 + "\n\n" + encuentro2 + "\n\n" + encuentro3 + "\n\n" + encuentro4 + "\n\n");
+
+
+        // Eleccion
+        Eleccion eleccion = new Eleccion(juegos_GLOBAL);
+        eleccion.generarSeleccion();
+
+        System.out.println("SELECCIÓN DE JUEGOS:");
+
+        StringBuilder lista_elegidos = new StringBuilder();
+        int cont_B = 0;
+
+        for(Juego elegido : eleccion.getSeleccion()) {
+            lista_elegidos.append(++cont_B).append(" - ").append(elegido).append("\n");
+        }
+
+        System.out.println(lista_elegidos);
+
+
+        StringBuilder lista_actualizada = new StringBuilder();
+        int cont_C = 0;
+
+        for(Juego juego : juegos_GLOBAL) {
+            lista_actualizada.append(++cont_C).append(" - ").append(juego).append("\n");
+        }
+
+        System.out.println("LISTA DE JUEGOS (actualizada):\n" + lista_actualizada + "\n");
+
+        for(int j = 0; j < 5; j++) {
+            Eleccion eleccion_for = new Eleccion(juegos_GLOBAL);
+            eleccion_for.generarSeleccion();
+
+            System.out.println("SELECCIÓN DE JUEGOS [" + (j+1) + "]:");
+
+            StringBuilder lista_elegidos_for = new StringBuilder();
+            int cont_D = 0;
+
+            for(Juego elegido : eleccion_for.getSeleccion()) {
+                lista_elegidos_for.append(++cont_D).append(" - ").append(elegido).append("\n");
+            }
+
+            System.out.println(lista_elegidos_for);
+
+            StringBuilder lista_actualizada_for = new StringBuilder();
+            int cont_E = 0;
+
+            for(Juego juego : juegos_GLOBAL) {
+                lista_actualizada_for.append(++cont_E).append(" - ").append(juego).append("\n");
+            }
+
+            System.out.println("LISTA DE JUEGOS [" + (j+1) + "] (actualizada):\n" + lista_actualizada_for + "\n");
+        }
     }
 }
