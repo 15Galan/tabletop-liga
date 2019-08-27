@@ -13,7 +13,6 @@ public class Encuentro {
     private Date fecha;
     private List<Participante> participantes;
     private List<Juego> seleccion;
-    private Participante ganador;
 
 
     public Encuentro(String titulo, Date fecha, List<Participante> jugadores, List<Juego> juegos) {
@@ -63,14 +62,6 @@ public class Encuentro {
         this.seleccion = seleccion;
     }
 
-    public Participante getGanador() {
-        return ganador;
-    }
-
-    public void setGanador(Participante ganador) {
-        this.ganador = ganador;
-    }
-
     public String generarTitulo(List<Juego> juegos) {
         double media = 0;
         String mensaje;
@@ -113,30 +104,30 @@ public class Encuentro {
         return mensaje;
     }
 
+
     @Override
     public String toString() {
         StringBuilder mensaje = new StringBuilder();
         StringBuilder lista = new StringBuilder("[");
 
-        mensaje.append(titulo.toUpperCase() + " - ");
-        mensaje.append(new SimpleDateFormat("(dd-MM-yyyy) (HH:mm)").format(fecha) + " - ");     // Formato simple
-        mensaje.append(participantes + "\n");                                          // Formato normal
+        mensaje.append(titulo.toUpperCase()).append(" - ");
+        mensaje.append(new SimpleDateFormat("(dd-MM-yyyy) (HH:mm)").format(fecha)).append(" - ");
+        mensaje.append(participantes).append("\n");
 
         Iterator<Juego> it = seleccion.iterator();
 
-        while(it.hasNext()) {                               // Formato especial
+        while(it.hasNext()) {
             Juego juego = it.next();
 
             if(it.hasNext()) {
-                lista.append(juego.getNombre() + ", ");
+                lista.append(juego.getNombre()).append(", ");
 
             } else {
-                lista.append(juego.getNombre() + "]");
+                lista.append(juego.getNombre()).append("]");
             }
         }
 
-        mensaje.append(lista.toString() + "\n");
-        mensaje.append("Ganador: " + ganador.getNombre());
+        mensaje.append(lista.toString()).append("\n");
 
         return mensaje.toString();
     }

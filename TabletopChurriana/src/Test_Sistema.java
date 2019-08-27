@@ -144,8 +144,6 @@ public class Test_Sistema {
 
         Encuentro encuentro1 = new Encuentro(new Date(), participantes1, juegos_C);
 
-        encuentro1.setGanador(participantes1.get(0));
-
         // Segundo
         List<Participante> participantes2 = new LinkedList<>();
 
@@ -154,8 +152,6 @@ public class Test_Sistema {
         participantes2.add(luis);
 
         Encuentro encuentro2 = new Encuentro(new Date(), participantes2, juegos_N);
-
-        encuentro2.setGanador(participantes2.get(1));
 
         // Tercero
         List<Participante> participantes3 = new LinkedList<>();
@@ -166,8 +162,6 @@ public class Test_Sistema {
 
         Encuentro encuentro3 = new Encuentro(new Date(), participantes3, juegos_L);
 
-        encuentro3.setGanador(fran);
-
         // Cuarto
         List<Participante> participantes4 = new LinkedList<>();
 
@@ -177,8 +171,6 @@ public class Test_Sistema {
         participantes4.add(alberto);
 
         Encuentro encuentro4 = new Encuentro(new Date(), participantes4, juegos_X);
-
-        encuentro4.setGanador(alberto);
 
 
         System.out.println("LISTA DE ENCUENTROS:");

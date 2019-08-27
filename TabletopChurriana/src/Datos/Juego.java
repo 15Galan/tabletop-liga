@@ -142,11 +142,25 @@ public class Juego {
 
     @Override
     public String toString() {
+        StringBuilder mensaje = new StringBuilder(nombre);
+        mensaje.append(" |").append(porcentaje).append("%|, ");
+        mensaje.append(dueno).append(", ");
+        mensaje.append(jugadoresMAX).append(" jugadores, ");
+        mensaje.append(duracion).append(" min");
 
-        return nombre + " |" + porcentaje + "%|, " +
-                dueno + ", " +
-                jugadoresMAX + " jugadores, " +
-                duracion + " min, " +
-                expansiones;
+        if(expansiones.size() != 0) {
+            mensaje.append(" [");
+
+            for(Expansion expansion : expansiones) {
+                mensaje.append(expansion.getNombre());
+
+                if(expansiones.lastIndexOf(expansion) != expansiones.size()-1) {
+                    mensaje.append(", ");
+                }
+            }
+            mensaje.append("]");
+        }
+
+        return mensaje.toString();
     }
 }

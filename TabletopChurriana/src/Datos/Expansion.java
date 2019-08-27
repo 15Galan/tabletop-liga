@@ -8,6 +8,7 @@ public class Expansion {
     private int jugadoresEXTRA;     // Cantidad de jugadoresEXTRA que añade al juego base
     private int porcentaje;
 
+
     public Expansion(String nombre, String dueno, int jugadoresEXTRA) {
         this.nombre = nombre;
         this.dueno = dueno;
@@ -15,6 +16,7 @@ public class Expansion {
 
         porcentaje = 100;
     }
+
 
     public Juego getJuego() {
         return juego;
@@ -56,8 +58,9 @@ public class Expansion {
         this.porcentaje = porcentaje;
     }
 
+
     @Override
     public String toString() {
-        return nombre + ", " + dueno + ", +" + jugadoresEXTRA;
+        return nombre + ", " + dueno + ", +" + jugadoresEXTRA + " jugadores";
     }
 }
