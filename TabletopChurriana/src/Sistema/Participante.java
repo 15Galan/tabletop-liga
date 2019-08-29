@@ -83,7 +83,7 @@ public class Participante {
             }
 
         } else {
-            ficha.append("\tSin juegos en la liga");
+            ficha.append("\tSin juegos en la liga\n");
         }
 
         if(favorito != null) {
