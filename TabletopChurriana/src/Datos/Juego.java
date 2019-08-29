@@ -139,6 +139,10 @@ public class Juego {
         }
     }
 
+    public Juego copiar() {
+        return new Juego(nombre, dueno, jugadoresMAX, duracion, categoria, porcentaje, expansiones);
+    }
+
 
     @Override
     public String toString() {

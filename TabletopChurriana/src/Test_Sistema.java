@@ -101,7 +101,13 @@ public class Test_Sistema {
         participantes.add(fran);
         participantes.add(alberto);
 
-        System.out.println("LISTA DE PARTICIPANTES:\n" + participantes + "\n\n");
+        System.out.println("LISTA DE PARTICIPANTES:");
+
+        for(Participante participante : participantes) {
+            System.out.println(participante.getNombre() + " (" + participante.getPuntos() + ")");
+        }
+
+        System.out.println("\n");
 
 
         // Lista con juegos CORTOS
@@ -137,12 +143,17 @@ public class Test_Sistema {
 
         // ENCUENTROS
         // Primero
+        System.out.println("LISTA DE ENCUENTROS:");
         List<Participante> participantes1 = new LinkedList<>();
 
         participantes1.add(galan);
         participantes1.add(javi);
 
         Encuentro encuentro1 = new Encuentro(new Date(), participantes1, juegos_C);
+        galan.ganar(2);
+
+        System.out.println(encuentro1);
+
 
         // Segundo
         List<Participante> participantes2 = new LinkedList<>();
@@ -152,6 +163,10 @@ public class Test_Sistema {
         participantes2.add(luis);
 
         Encuentro encuentro2 = new Encuentro(new Date(), participantes2, juegos_N);
+        galan.ganar(2);
+        javi.ganar(4);
+
+        System.out.println(encuentro2);
 
         // Tercero
         List<Participante> participantes3 = new LinkedList<>();
@@ -161,6 +176,10 @@ public class Test_Sistema {
         participantes3.add(fran);
 
         Encuentro encuentro3 = new Encuentro(new Date(), participantes3, juegos_L);
+        galan.ganar(3);
+        fran.ganar(6);
+
+        System.out.println(encuentro3);
 
         // Cuarto
         List<Participante> participantes4 = new LinkedList<>();
@@ -171,10 +190,10 @@ public class Test_Sistema {
         participantes4.add(alberto);
 
         Encuentro encuentro4 = new Encuentro(new Date(), participantes4, juegos_X);
+        javi.ganar(4);
+        alberto.ganar(8);
 
-
-        System.out.println("LISTA DE ENCUENTROS:");
-        System.out.println(encuentro1 + "\n\n" + encuentro2 + "\n\n" + encuentro3 + "\n\n" + encuentro4 + "\n\n");
+        System.out.println(encuentro4);
 
 
         // Eleccion

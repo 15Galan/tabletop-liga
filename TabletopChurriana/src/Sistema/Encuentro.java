@@ -62,7 +62,7 @@ public class Encuentro {
         this.seleccion = seleccion;
     }
 
-    public String generarTitulo(List<Juego> juegos) {
+    private String generarTitulo(List<Juego> juegos) {
         double media = 0;
         String mensaje;
 
@@ -112,7 +112,18 @@ public class Encuentro {
 
         mensaje.append(titulo.toUpperCase()).append(" - ");
         mensaje.append(new SimpleDateFormat("(dd-MM-yyyy) (HH:mm)").format(fecha)).append(" - ");
-        mensaje.append(participantes).append("\n");
+        mensaje.append("[");
+
+        for(Participante participante : participantes) {
+            mensaje.append(participante.getNombre());
+            mensaje.append(" (").append(participante.getPuntos()).append(")");
+
+            if(participantes.lastIndexOf(participante) != participantes.size()-1) {
+                mensaje.append(", ");
+            }
+        }
+
+        mensaje.append("]\n");
 
         Iterator<Juego> it = seleccion.iterator();
 

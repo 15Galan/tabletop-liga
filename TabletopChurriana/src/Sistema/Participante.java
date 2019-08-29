@@ -51,6 +51,10 @@ public class Participante {
         this.puntos = puntos;
     }
 
+    public void ganar(int puntos) {
+        this.puntos += puntos;
+    }
+
     public List<Juego> getJuegos() {
         return juegos;
     }
@@ -67,10 +71,25 @@ public class Participante {
         this.favorito = favorito;
     }
 
-
     @Override
     public String toString() {
+        StringBuilder ficha = new StringBuilder();
 
-        return nombre + " (" + puntos + ")";
+        ficha.append(nombre).append(" - ").append(puntos).append(" puntos\n");
+
+        if (juegos.size() != 0) {
+            for (Juego juego : juegos) {
+                ficha.append("\t").append(juego).append("\n");
+            }
+
+        } else {
+            ficha.append("\tSin juegos en la liga");
+        }
+
+        if(favorito != null) {
+            ficha.append("Favorito:\t").append(favorito.getNombre());
+        }
+
+        return ficha.toString();
     }
 }

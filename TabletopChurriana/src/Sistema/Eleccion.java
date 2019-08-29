@@ -63,8 +63,10 @@ public class Eleccion {
         for(Juego juego : juegos) {
             double porcentaje = juego.getPorcentaje();
 
-            if(seleccion.contains(juego)) {
-                juego.restarPorcentaje((porcentaje/total) / escogidos);
+            if(seleccion.contains(juego)) {         // Si se almacenara la copia antes: juego != copia, entonces false
+                seleccion.add(juego.copiar());      // Esto mantiene el porcentaje del juego antes de cambiarlo
+                seleccion.remove(juego);            // Los juegos no deben estar repetidos (ya está la copia)
+                juego.restarPorcentaje((porcentaje/total) / escogidos);     // Afecta al juego original
 
             } else {
                 juego.sumarPorcentaje((porcentaje/total) / no_escogidos);
