@@ -1,37 +1,39 @@
 package Datos;
 
+import Sistema.Participante;
+
 import java.util.LinkedList;
 import java.util.List;
 
 public class Juego {
     // Variables del juego
     private String nombre;
-    private String dueno;
     private int jugadoresMAX;
     private int duracion;
 
     // Variables para el sistema
+    private Participante dueno;
     private Categoria categoria;
     private double porcentaje;
     private List<Expansion> expansiones;
 
 
-    public Juego(String nombre, String dueno, int jugadoresMAX, int minutos, Categoria categoria, double porcentaje, List<Expansion> expansiones) {
+    public Juego(String nombre, Participante dueno, int jugadoresMAX, int minutos, Categoria categoria, double porcentaje, List<Expansion> expansiones) {
         this(nombre, dueno, jugadoresMAX, minutos, categoria, porcentaje);
         this.expansiones = expansiones;
     }
 
-    public Juego(String nombre, String dueno, int jugadoresMAX, int minutos, Categoria categoria, double porcentaje) {
+    public Juego(String nombre, Participante dueno, int jugadoresMAX, int minutos, Categoria categoria, double porcentaje) {
         this(nombre, dueno, jugadoresMAX, minutos, categoria);
         this.porcentaje = porcentaje;
     }
 
-    public Juego(String nombre, String dueno, int jugadoresMAX, int minutos, Categoria categoria) {
+    public Juego(String nombre, Participante dueno, int jugadoresMAX, int minutos, Categoria categoria) {
         this(nombre, dueno, jugadoresMAX, minutos);
         this.categoria = categoria;
     }
 
-    public Juego(String nombre, String dueno, int jugadoresMAX, int minutos) {
+    public Juego(String nombre, Participante dueno, int jugadoresMAX, int minutos) {
         this.nombre = nombre;
         this.dueno = dueno;
         this.jugadoresMAX = jugadoresMAX;
@@ -60,11 +62,11 @@ public class Juego {
         this.nombre = nombre;
     }
 
-    public String getDueno() {
+    public Participante getDueno() {
         return dueno;
     }
 
-    public void setDueno(String dueno) {
+    public void setDueno(Participante dueno) {
         this.dueno = dueno;
     }
 
@@ -119,24 +121,36 @@ public class Juego {
         return expansiones;
     }
 
+    public void addExpansion(Expansion expansion) {
+        expansiones.add(expansion);
+        expansion.setJuego(this);
+    }
+
     public void addExpansiones(List<Expansion> lista) {
-        boolean repetido = false;
-
-        for(Expansion exp_actual : lista) {
-            for(Expansion exp_lista : expansiones) {
-                if(exp_actual.equals(exp_lista)) {
-                    repetido = true;
-                    break;
-                }
-            }
-
-            if(!repetido) {
-                expansiones.add(exp_actual);
-
-            } else {
-                repetido = false;
+        for(Expansion expansion : lista) {
+            if(!expansiones.contains(expansion)){
+                expansiones.add(expansion);
+                expansion.setJuego(this);
             }
         }
+
+//        boolean repetido = false;
+//
+//          for(Expansion exp_actual : lista) {
+//            for(Expansion exp_lista : expansiones) {
+//                if(exp_actual.equals(exp_lista)) {
+//                    repetido = true;
+//                    break;
+//                }
+//            }
+//
+//            if(!repetido) {
+//                expansiones.add(exp_actual);
+//
+//            } else {
+//                repetido = false;
+//            }
+//        }
     }
 
     public Juego copiar() {
@@ -148,7 +162,7 @@ public class Juego {
     public String toString() {
         StringBuilder mensaje = new StringBuilder(nombre);
         mensaje.append(" |").append(porcentaje).append("%|, ");
-        mensaje.append(dueno).append(", ");
+//        mensaje.append(dueno.getNombre()).append(", ");
         mensaje.append(jugadoresMAX).append(" jugadores, ");
         mensaje.append(duracion).append(" min");
 

@@ -16,10 +16,6 @@ public class Participante {
     public Participante(String alias, List<Juego> juegos, Juego favorito) {
         this(alias, juegos);
         this.favorito = favorito;
-
-        if(juegos.size() == 1) {
-            this.favorito = juegos.get(0);
-        }
     }
 
     public Participante(String alias, List<Juego> juegos) {
@@ -61,6 +57,18 @@ public class Participante {
 
     public void setJuegos(List<Juego> juegos) {
         this.juegos = juegos;
+
+        if(juegos.size() == 1) {
+            this.favorito = juegos.get(0);
+        }
+    }
+
+    public void addJuego(Juego juego) {
+        juegos.add(juego);
+
+        if(juegos.size() == 1) {
+            this.favorito = juegos.get(0);
+        }
     }
 
     public Juego getFavorito() {
@@ -79,15 +87,19 @@ public class Participante {
 
         if (juegos.size() != 0) {
             for (Juego juego : juegos) {
-                ficha.append("\t").append(juego).append("\n");
+                ficha.append("\t").append(juego);
+
+                if(juegos.lastIndexOf(juego) != juegos.size()-1) {
+                    ficha.append("\n");
+                }
+            }
+
+            if(favorito != null) {
+                ficha.append("Favorito:\t").append(favorito.getNombre());
             }
 
         } else {
-            ficha.append("\tSin juegos en la liga\n");
-        }
-
-        if(favorito != null) {
-            ficha.append("Favorito:\t").append(favorito.getNombre());
+            ficha.append("\tSin juegos en la liga");
         }
 
         return ficha.toString();

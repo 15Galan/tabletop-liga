@@ -1,4 +1,5 @@
 import Datos.Categoria;
+import Datos.Expansion;
 import Datos.Juego;
 import Sistema.Eleccion;
 import Sistema.Encuentro;
@@ -10,20 +11,30 @@ import java.util.List;
 
 public class Test_Sistema {
 
+    // Todos los participantes
+    static private Participante galan = new Participante("Galán");
+    static private Participante javi = new Participante("Javi");
+    static private Participante luis = new Participante("Luis");
+    static private Participante alberto = new Participante("Velasco");
+    static private Participante fran = new Participante("Fran");
+
     // Todos los juegos
-    static private Juego monstruoFinal_1 = new Juego("Monstruo Final", "Galán", 4, 60);
-    static private Juego monstruoFinal_3 = new Juego("Monstruo Final: Ascenso de los mini-monstruos finales", "Galán", 4, 60);
-    static private Juego isaac = new Juego("The Binding of Isaac: Four Souls", "Javi", 10, 90);
-    static private Juego doom = new Juego("DOOM", "Javi", 5, 120);
-    static private Juego risk = new Juego("Risk", "Luis", 6, 120);
-    static private Juego fluxx = new Juego("FLUXX", "Galán", 6, 60, Categoria.ESPECIAL);
-    static private Juego blackStories = new Juego("Blackstories", "Galán", 10, 60, Categoria.ESPECIAL);
-    static private Juego jenga_uno = new Juego("UNO Stacko", "Galán", 6, 60);
-    static private Juego dos = new Juego("DOS", "Galán", 6, 15);
-    static private Juego taki = new Juego("Taki", "Galán", 6, 30);
-    static private Juego munchkins = new Juego("Munchkins", "Javi", 6, 45);
-    static private Juego munchkins_espacio = new Juego("Munchinks (edición espacial)", "Fran", 6, 45);
-    static private Juego fluxx_mp = new Juego("FLUXX (edición Monty Piton)", "Fran", 6, 60, Categoria.ESPECIAL);
+    static private Juego monstruoFinal_1 = new Juego("Monstruo Final", galan, 4, 60);
+    static private Juego monstruoFinal_3 = new Juego("Monstruo Final: Ascenso de los mini-monstruos finales", galan, 4, 60);
+    static private Juego isaac = new Juego("The Binding of Isaac: Four Souls", javi, 10, 90);
+    static private Juego doom = new Juego("DOOM", javi, 5, 120);
+    static private Juego risk = new Juego("Risk", luis, 6, 120);
+    static private Juego fluxx = new Juego("FLUXX", galan, 6, 60, Categoria.ESPECIAL);
+    static private Juego blackStories = new Juego("Blackstories", galan, 10, 60, Categoria.ESPECIAL);
+    static private Juego jenga_uno = new Juego("UNO Stacko", galan, 6, 60);
+    static private Juego dos = new Juego("DOS", galan, 6, 15);
+    static private Juego taki = new Juego("Taki", galan, 6, 30);
+    static private Juego munchkins = new Juego("Munchkins", javi, 6, 45);
+    static private Juego munchkins_espacio = new Juego("Munchinks (edición espacial)", fran, 6, 45);
+    static private Juego fluxx_mp = new Juego("FLUXX (edición Monty Piton)", fran, 6, 60, Categoria.ESPECIAL);
+
+    // Todas las expansiones
+    static private Expansion aterrizaje_forzoso = new Expansion("Aterrizaje Forzoso", galan, 2);
 
     public static void main(String[] args) {
 
@@ -55,6 +66,18 @@ public class Test_Sistema {
         System.out.println("LISTA DE JUEGOS:\n" + lista_juegos + "\n");
 
 
+        // Lista de EXPANSIONES
+        List<Expansion> expansiones = new LinkedList<>();
+
+        expansiones.add(aterrizaje_forzoso);
+
+        System.out.println("LISTA DE EXPANSIONES:");
+
+        for(Expansion expansion : expansiones) {
+            System.out.println(expansion + "\n");
+        }
+
+
         // Listas de JUEGOS/PERSONA
         List<Juego> juegos_Galan = new LinkedList<>();
 
@@ -65,6 +88,9 @@ public class Test_Sistema {
         juegos_Galan.add(jenga_uno);
         juegos_Galan.add(dos);
         juegos_Galan.add(taki);
+
+        monstruoFinal_1.addExpansion(aterrizaje_forzoso);
+        monstruoFinal_3.addExpansion(aterrizaje_forzoso);
 
 
         List<Juego> juegos_Javi = new LinkedList<>();
@@ -85,13 +111,13 @@ public class Test_Sistema {
         juegos_Fran.add(fluxx_mp);
 
 
-        // Los JUGADORES
-        Participante galan = new Participante("Galán", juegos_Galan, monstruoFinal_1);
-        Participante javi = new Participante("Javi", juegos_Javi, isaac);
-        Participante luis = new Participante("Luis", juegos_Luis);
-        Participante fran = new Participante("Fran", juegos_Fran);
-        Participante alberto = new Participante("Velasco");
-
+        // Lista de PARTICIPANTES
+        galan.setJuegos(juegos_Galan);
+        galan.setFavorito(monstruoFinal_1);
+        javi.setJuegos(juegos_Javi);
+        javi.setFavorito(isaac);
+        luis.setJuegos(juegos_Luis);
+        fran.setJuegos(juegos_Fran);
 
         List<Participante> participantes = new LinkedList<>();
 
@@ -101,13 +127,11 @@ public class Test_Sistema {
         participantes.add(fran);
         participantes.add(alberto);
 
-        System.out.println("LISTA DE PARTICIPANTES:");
+        System.out.println("\nLISTA DE PARTICIPANTES:");
 
         for(Participante participante : participantes) {
-            System.out.println(participante.getNombre() + " (" + participante.getPuntos() + ")");
+            System.out.println(participante + "\n");
         }
-
-        System.out.println("\n");
 
 
         // Lista con juegos CORTOS
@@ -143,7 +167,7 @@ public class Test_Sistema {
 
         // ENCUENTROS
         // Primero
-        System.out.println("LISTA DE ENCUENTROS:");
+        System.out.println("\nLISTA DE ENCUENTROS:");
         List<Participante> participantes1 = new LinkedList<>();
 
         participantes1.add(galan);
@@ -200,7 +224,7 @@ public class Test_Sistema {
         Eleccion eleccion = new Eleccion(juegos_GLOBAL);
         eleccion.generarSeleccion();
 
-        System.out.println("SELECCIÓN DE JUEGOS:");
+        System.out.println("\nSELECCIÓN DE JUEGOS:");
 
         StringBuilder lista_elegidos = new StringBuilder();
         int cont_B = 0;
@@ -244,6 +268,12 @@ public class Test_Sistema {
             }
 
             System.out.println("LISTA DE JUEGOS [" + (j+1) + "] (actualizada):\n" + lista_actualizada_for + "\n");
+        }
+
+        System.out.println("LISTA DE PARTICIPANTES (puntuaciones):");
+
+        for(Participante participante : participantes) {
+            System.out.println(participante + "\n");
         }
     }
 }

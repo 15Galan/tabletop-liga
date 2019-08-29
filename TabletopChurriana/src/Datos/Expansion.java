@@ -1,15 +1,19 @@
 package Datos;
 
-public class Expansion {
+import Sistema.Participante;
 
-    private Juego juego;            // Datos.Juego al que se asocia la expansión
+public class Expansion {
+    // Variables de la expansión
     private String nombre;
-    private String dueno;
     private int jugadoresEXTRA;     // Cantidad de jugadoresEXTRA que añade al juego base
+
+    // Variables del sistema
+    private Juego juego;            // Juego al que se asocia la expansión
+    private Participante dueno;
     private int porcentaje;
 
 
-    public Expansion(String nombre, String dueno, int jugadoresEXTRA) {
+    public Expansion(String nombre, Participante dueno, int jugadoresEXTRA) {
         this.nombre = nombre;
         this.dueno = dueno;
         this.jugadoresEXTRA = jugadoresEXTRA;
@@ -24,6 +28,7 @@ public class Expansion {
 
     public void setJuego(Juego juego) {
         this.juego = juego;
+        juego.addExpansion(this);
     }
 
     public String getNombre() {
@@ -34,11 +39,11 @@ public class Expansion {
         this.nombre = nombre;
     }
 
-    public String getDueno() {
+    public Participante getDueno() {
         return dueno;
     }
 
-    public void setDueno(String dueno) {
+    public void setDueno(Participante dueno) {
         this.dueno = dueno;
     }
 
@@ -61,6 +66,6 @@ public class Expansion {
 
     @Override
     public String toString() {
-        return nombre + ", " + dueno + ", +" + jugadoresEXTRA + " jugadores";
+        return nombre + ", " + dueno.getNombre() + ", +" + jugadoresEXTRA + " jugadores";
     }
 }
