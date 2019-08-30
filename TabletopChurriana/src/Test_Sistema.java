@@ -1,16 +1,15 @@
 import Datos.Categoria;
 import Datos.Expansion;
 import Datos.Juego;
-import Sistema.Eleccion;
 import Sistema.Encuentro;
 import Sistema.Participante;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Test_Sistema {
-
     // Todos los participantes
     static private Participante galan = new Participante("Galán");
     static private Participante javi = new Participante("Javi");
@@ -37,33 +36,15 @@ public class Test_Sistema {
     static private Expansion aterrizaje_forzoso = new Expansion("Aterrizaje Forzoso", galan, 2);
 
     public static void main(String[] args) {
-
         // Lista de TODOS los juegos
-        List<Juego> juegos_GLOBAL = new LinkedList<>();
-
-        juegos_GLOBAL.add(monstruoFinal_1);
-        juegos_GLOBAL.add(monstruoFinal_3);
-        juegos_GLOBAL.add(isaac);
-        juegos_GLOBAL.add(doom);
-        juegos_GLOBAL.add(risk);
-        juegos_GLOBAL.add(fluxx);
-        juegos_GLOBAL.add(blackStories);
-        juegos_GLOBAL.add(jenga_uno);
-        juegos_GLOBAL.add(dos);
-        juegos_GLOBAL.add(taki);
-        juegos_GLOBAL.add(munchkins);
-        juegos_GLOBAL.add(munchkins_espacio);
-        juegos_GLOBAL.add(fluxx_mp);
-
-        StringBuilder lista_juegos = new StringBuilder();
-        int cont_A = 0;
+        List<Juego> juegos_GLOBAL = Arrays.asList(monstruoFinal_1, monstruoFinal_3, isaac,doom, risk, fluxx,
+                                        blackStories, jenga_uno, dos, taki, munchkins, munchkins_espacio, fluxx_mp);
 
         for(Juego juego : juegos_GLOBAL) {
-            juego.setPorcentaje(Math.round(100 * 100d/juegos_GLOBAL.size()) / 100d);
-            lista_juegos.append(++cont_A).append(" - ").append(juego).append("\n");
+            juego.setPorcentaje(Math.round(100 * 100d/juegos_GLOBAL.size()) / 100d);    // Colocar el % inicial correcto
         }
 
-        System.out.println("LISTA DE JUEGOS:\n" + lista_juegos + "\n");
+        System.out.println("LISTA DE JUEGOS:\n" + mostrarJuegos(juegos_GLOBAL) + "\n");
 
 
         // Lista de EXPANSIONES
@@ -71,209 +52,132 @@ public class Test_Sistema {
 
         expansiones.add(aterrizaje_forzoso);
 
-        System.out.println("LISTA DE EXPANSIONES:");
-
-        for(Expansion expansion : expansiones) {
-            System.out.println(expansion + "\n");
-        }
+        System.out.println("LISTA DE EXPANSIONES:\n" + mostrarJuegos(expansiones));
 
 
         // Listas de JUEGOS/PERSONA
-        List<Juego> juegos_Galan = new LinkedList<>();
-
-        juegos_Galan.add(monstruoFinal_1);
-        juegos_Galan.add(monstruoFinal_3);
-        juegos_Galan.add(fluxx);
-        juegos_Galan.add(blackStories);
-        juegos_Galan.add(jenga_uno);
-        juegos_Galan.add(dos);
-        juegos_Galan.add(taki);
+        List<Juego> juegos_Galan = Arrays.asList(monstruoFinal_1, monstruoFinal_3, fluxx,
+                                                blackStories, jenga_uno, dos, taki);
 
         monstruoFinal_1.addExpansion(aterrizaje_forzoso);
         monstruoFinal_3.addExpansion(aterrizaje_forzoso);
 
 
-        List<Juego> juegos_Javi = new LinkedList<>();
+        List<Juego> juegos_Javi = Arrays.asList(isaac, doom, munchkins);
 
-        juegos_Javi.add(isaac);
-        juegos_Javi.add(doom);
-        juegos_Javi.add(munchkins);
+        List<Juego> juegos_Luis = Arrays.asList(risk);
 
-
-        List<Juego> juegos_Luis = new LinkedList<>();
-
-        juegos_Luis.add(risk);
-
-
-        List<Juego> juegos_Fran = new LinkedList<>();
-
-        juegos_Fran.add(munchkins_espacio);
-        juegos_Fran.add(fluxx_mp);
+        List<Juego> juegos_Fran = Arrays.asList(munchkins_espacio, fluxx_mp);
 
 
         // Lista de PARTICIPANTES
         galan.setJuegos(juegos_Galan);
         galan.setFavorito(monstruoFinal_1);
+
         javi.setJuegos(juegos_Javi);
         javi.setFavorito(isaac);
+
         luis.setJuegos(juegos_Luis);
         fran.setJuegos(juegos_Fran);
 
-        List<Participante> participantes = new LinkedList<>();
+        List<Participante> participantes = Arrays.asList(galan, javi, luis, fran, alberto);
 
-        participantes.add(galan);
-        participantes.add(javi);
-        participantes.add(luis);
-        participantes.add(fran);
-        participantes.add(alberto);
-
-        System.out.println("\nLISTA DE PARTICIPANTES:");
-
-        for(Participante participante : participantes) {
-            System.out.println(participante + "\n");
-        }
+        System.out.println("\nLISTA DE PARTICIPANTES:\n" + mostrarParticipantes(participantes));
 
 
-        // Lista con juegos CORTOS
-        List<Juego> juegos_C = new LinkedList<>();
+        // Lista de ENCUENTROS
+        System.out.println("LISTA DE ENCUENTROS:");
 
-        juegos_C.add(dos);
-        juegos_C.add(taki);
-
-
-        // Lista con juegos NORMALES
-        List<Juego> juegos_N = new LinkedList<>();
-
-        juegos_N.add(jenga_uno);
-        juegos_N.add(munchkins);
-        juegos_N.add(monstruoFinal_3);
-
-
-        // Lista con juegos LARGOS
-        List<Juego> juegos_L = new LinkedList<>();
-
-        juegos_L.add(monstruoFinal_1);
-        juegos_L.add(isaac);
-        juegos_L.add(risk);
-        juegos_L.add(doom);
-
-
-        // Lista con juegos ESPECIALES
-        List<Juego> juegos_X = new LinkedList<>();
-
-        juegos_X.add(monstruoFinal_3);
-        juegos_X.add(fluxx);
-        juegos_X.add(blackStories);
-
-        // ENCUENTROS
-        // Primero
-        System.out.println("\nLISTA DE ENCUENTROS:");
-        List<Participante> participantes1 = new LinkedList<>();
-
-        participantes1.add(galan);
-        participantes1.add(javi);
-
-        Encuentro encuentro1 = new Encuentro(new Date(), participantes1, juegos_C);
+            // Primero
+        Encuentro encuentro1 = new Encuentro(new Date(), 300, new Participante[]{galan, javi});
         galan.ganar(2);
 
         System.out.println(encuentro1);
+        System.out.println("LISTA DE JUEGOS (actualizada):\n" + mostrarJuegos(juegos_GLOBAL));
 
-
-        // Segundo
-        List<Participante> participantes2 = new LinkedList<>();
-
-        participantes2.add(galan);
-        participantes2.add(javi);
-        participantes2.add(luis);
-
-        Encuentro encuentro2 = new Encuentro(new Date(), participantes2, juegos_N);
+            // Segundo
+        Encuentro encuentro2 = new Encuentro(new Date(), 240, new Participante[]{galan, javi, luis});
         galan.ganar(2);
         javi.ganar(4);
 
         System.out.println(encuentro2);
+        System.out.println("LISTA DE JUEGOS (actualizada):\n" + mostrarJuegos(juegos_GLOBAL));
 
-        // Tercero
-        List<Participante> participantes3 = new LinkedList<>();
-
-        participantes3.add(galan);
-        participantes3.add(javi);
-        participantes3.add(fran);
-
-        Encuentro encuentro3 = new Encuentro(new Date(), participantes3, juegos_L);
-        galan.ganar(3);
-        fran.ganar(6);
+            // Tercero
+        Encuentro encuentro3 = new Encuentro(new Date(), 240, new Participante[]{galan, javi,fran});
+        galan.ganar(6);
+        fran.ganar(3);
 
         System.out.println(encuentro3);
+        System.out.println("LISTA DE JUEGOS (actualizada):\n" + mostrarJuegos(juegos_GLOBAL));
 
-        // Cuarto
-        List<Participante> participantes4 = new LinkedList<>();
-
-        participantes4.add(galan);
-        participantes4.add(javi);
-        participantes4.add(luis);
-        participantes4.add(alberto);
-
-        Encuentro encuentro4 = new Encuentro(new Date(), participantes4, juegos_X);
+            // Cuarto
+        Encuentro encuentro4 = new Encuentro(new Date(), 240, new Participante[]{galan, javi, luis, alberto});
         javi.ganar(4);
         alberto.ganar(8);
 
         System.out.println(encuentro4);
+        System.out.println("LISTA DE JUEGOS (actualizada):\n" + mostrarJuegos(juegos_GLOBAL));
+
+            // Quinto (caso especial)
+        Encuentro encuentro5 = new Encuentro("Halloween", new Date(), 240, new Participante[]{galan, javi, luis, alberto, fran});
+
+        List<Juego> halloween = Arrays.asList(monstruoFinal_1, monstruoFinal_3, isaac, doom, blackStories);
+        encuentro5.setJuegos(halloween);
+
+        galan.ganar(4);
+        javi.ganar(3);
+        luis.ganar(3);
+        alberto.ganar(4);
+
+        System.out.println(encuentro5);
+        System.out.println("LISTA DE JUEGOS (actualizada):\n" + mostrarJuegos(juegos_GLOBAL));
 
 
-        // Eleccion
-        Eleccion eleccion = new Eleccion(juegos_GLOBAL);
-        eleccion.generarSeleccion();
-
+        // Listas de juegos SELECCIONADOS
         System.out.println("\nSELECCIÓN DE JUEGOS:");
 
-        StringBuilder lista_elegidos = new StringBuilder();
-        int cont_B = 0;
-
-        for(Juego elegido : eleccion.getSeleccion()) {
-            lista_elegidos.append(++cont_B).append(" - ").append(elegido).append("\n");
+        for(Encuentro encuentro : new Encuentro[]{encuentro1, encuentro2, encuentro3, encuentro4, encuentro5}) {
+            System.out.println(mostrarJuegos(encuentro.getSeleccion()));
         }
 
-        System.out.println(lista_elegidos);
+        System.out.println("\nLISTA DE PARTICIPANTES (actualizada):\n" + mostrarParticipantes(participantes));
+
+        System.out.println("LISTA DE JUEGOS (actualizada):\n" + mostrarJuegos(juegos_GLOBAL));
+    }
 
 
-        StringBuilder lista_actualizada = new StringBuilder();
-        int cont_C = 0;
+    private static <E> String mostrarJuegos(List<E> lista) {
+        StringBuilder mensaje = new StringBuilder();
 
-        for(Juego juego : juegos_GLOBAL) {
-            lista_actualizada.append(++cont_C).append(" - ").append(juego).append("\n");
-        }
+        if (lista != null && lista.size() != 0) {
+            for (int i = 0; i < lista.size(); i++) {
+                if (i < 9) {
+                    mensaje.append("0");
+                }
 
-        System.out.println("LISTA DE JUEGOS (actualizada):\n" + lista_actualizada + "\n");
-
-        for(int j = 0; j < 5; j++) {
-            Eleccion eleccion_for = new Eleccion(juegos_GLOBAL);
-            eleccion_for.generarSeleccion();
-
-            System.out.println("SELECCIÓN DE JUEGOS [" + (j+1) + "]:");
-
-            StringBuilder lista_elegidos_for = new StringBuilder();
-            int cont_D = 0;
-
-            for(Juego elegido : eleccion_for.getSeleccion()) {
-                lista_elegidos_for.append(++cont_D).append(" - ").append(elegido).append("\n");
+                mensaje.append(i+1).append(" - ").append(lista.get(i)).append("\n");
             }
 
-            System.out.println(lista_elegidos_for);
+        } else {
+            mensaje.append("Lista vacía").append("\n");
+        }
 
-            StringBuilder lista_actualizada_for = new StringBuilder();
-            int cont_E = 0;
+        return mensaje.toString();
+    }
 
-            for(Juego juego : juegos_GLOBAL) {
-                lista_actualizada_for.append(++cont_E).append(" - ").append(juego).append("\n");
+    private static String mostrarParticipantes(List<Participante> lista) {
+        StringBuilder mensaje = new StringBuilder();
+
+        if (lista != null && lista.size() != 0) {
+            for (Participante participante : lista) {
+                mensaje.append(participante).append("\n\n");
             }
 
-            System.out.println("LISTA DE JUEGOS [" + (j+1) + "] (actualizada):\n" + lista_actualizada_for + "\n");
+        } else {
+            mensaje.append("Lista vacía").append("\n");
         }
 
-        System.out.println("LISTA DE PARTICIPANTES (puntuaciones):");
-
-        for(Participante participante : participantes) {
-            System.out.println(participante + "\n");
-        }
+        return mensaje.toString();
     }
 }

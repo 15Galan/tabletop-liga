@@ -123,7 +123,6 @@ public class Juego {
 
     public void addExpansion(Expansion expansion) {
         expansiones.add(expansion);
-        expansion.setJuego(this);
     }
 
     public void addExpansiones(List<Expansion> lista) {
