@@ -95,7 +95,7 @@ public class Participante {
             }
 
             if(favorito != null) {
-                ficha.append("Favorito:\t").append(favorito.getNombre());
+                ficha.append("\n\tFavorito:\t").append(favorito.getNombre());
             }
 
         } else {
