@@ -17,7 +17,7 @@ public class Juego {
     private double porcentaje;
     private List<Expansion> expansiones;
 
-
+    // Constructores
     public Juego(String nombre, Participante dueno, int jugadoresMAX, int minutos, Categoria categoria, double porcentaje, List<Expansion> expansiones) {
         this(nombre, dueno, jugadoresMAX, minutos, categoria, porcentaje);
         this.expansiones = expansiones;
@@ -53,7 +53,11 @@ public class Juego {
         expansiones = new LinkedList<>();
     }
 
+    public Juego(String nombre, int jugadoresMAX, int minutos) {
+        this(nombre, null, jugadoresMAX, minutos);
+    }
 
+    // Getters y Setters
     public String getNombre() {
         return nombre;
     }
@@ -102,6 +106,15 @@ public class Juego {
         this.porcentaje = Math.round(100 * porcentaje) / 100d;
     }
 
+    public List<Expansion> getExpansiones() {
+        return expansiones;
+    }
+
+    public void setExpansiones(List<Expansion> expansiones) {
+        this.expansiones = expansiones;
+    }
+
+    // Métodos especiales
     public void sumarPorcentaje(double variacion) {
         porcentaje += variacion;
         setPorcentaje(porcentaje);  // Para redondear a 2 decimales
@@ -117,43 +130,38 @@ public class Juego {
         setPorcentaje(porcentaje);  // Para redondear a 2 decimales
     }
 
-    public List<Expansion> getExpansiones() {
-        return expansiones;
-    }
-
     public void addExpansion(Expansion expansion) {
-        expansiones.add(expansion);
+        if(!expansiones.contains(expansion)) {
+            expansiones.add(expansion);
+            expansion.setJuego(this);
+        }
     }
 
     public void addExpansiones(List<Expansion> lista) {
         for(Expansion expansion : lista) {
-            if(!expansiones.contains(expansion)){
-                expansiones.add(expansion);
-                expansion.setJuego(this);
-            }
+            addExpansion(expansion);
         }
-
-//        boolean repetido = false;
-//
-//          for(Expansion exp_actual : lista) {
-//            for(Expansion exp_lista : expansiones) {
-//                if(exp_actual.equals(exp_lista)) {
-//                    repetido = true;
-//                    break;
-//                }
-//            }
-//
-//            if(!repetido) {
-//                expansiones.add(exp_actual);
-//
-//            } else {
-//                repetido = false;
-//            }
-//        }
     }
 
     public Juego copiar() {
         return new Juego(nombre, dueno, jugadoresMAX, duracion, categoria, porcentaje, expansiones);
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        boolean res = o instanceof Juego;
+
+        Juego juego = res ? (Juego) o : null;
+
+        return res && nombre.equalsIgnoreCase(juego.nombre)
+                   && jugadoresMAX == juego.jugadoresMAX
+                   && duracion == juego.duracion;
+    }
+
+    @Override
+    public int hashCode() {
+        return nombre.hashCode() + jugadoresMAX + duracion;
     }
 
 
