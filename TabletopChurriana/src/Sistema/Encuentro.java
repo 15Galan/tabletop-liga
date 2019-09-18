@@ -8,7 +8,7 @@ import java.util.*;
 public class Encuentro {
 
     private String titulo;                      // Título decorativo para el encuentro (en función de los juegos)
-    private Date fecha;                         // TODO: Revisar cómo definir la fecha y cuándo
+    private Date fecha;                         // TODO: Revisar cómo definir la fecha y cuándo (en la ejecución)
     private List<Participante> participantes;   // Jugadores registrado para el encuentro
     private List<Juego> juegos;                 // Todos los juegos de todos los participantes del encuentro
     private List<Juego> seleccion;              // Juegos escogidos con azar ponderado para el encuentro
@@ -26,8 +26,6 @@ public class Encuentro {
         for(Participante participante : jugadores) {    // Suponiendo que la lista de juegos no es nula
             juegos.addAll(participante.getJuegos());
         }
-
-        generarSeleccion();
     }
 
     public Encuentro(String titulo, Date fecha, int duracion, Participante[] jugadores) {
@@ -45,9 +43,6 @@ public class Encuentro {
         this.fecha = fecha;
         participantes = jugadores;
         this.duracion = duracion;
-
-        generarSeleccion();
-        titulo = generarTitulo();
     }
 
     public Encuentro(Date fecha, int duracion, Participante[] jugadores) {
@@ -104,7 +99,74 @@ public class Encuentro {
     }
 
 
-    private String generarTitulo() {
+    public void generarSeleccion() {
+        int tiempo = 0, jugadores = participantes.size();
+        double pTotal = 0, random;
+        boolean posible = true;         // Indica si aún es posible seleccionar algún juego
+
+        List<Juego> auxiliar = new LinkedList<>();
+
+        for(Juego juego : juegos) {
+            if(juego.getJugadoresMAX() >= jugadores) {
+                auxiliar.add(juego);
+            }
+        }
+
+        // Escoger los juegos según el azar ponderado (en función de su % y del tiempo restante)
+        while(posible && tiempo < duracion) {
+            for (Juego juego : auxiliar) {
+                pTotal += juego.getPorcentaje();        // Obtener el peso total (%) de los juegos
+            }
+
+            random = Math.random() * pTotal;
+
+            posible = false;    // Si no se añade un juego en el for(), ya no hay posibilidades
+
+            for(Juego elegido : auxiliar) {
+                int tiempo_aux = tiempo + elegido.getDuracion();
+
+                if(tiempo_aux < duracion) {
+                    random -= elegido.getPorcentaje();
+
+                    if(random <= 0) {
+                        seleccion.add(elegido);
+                        tiempo += elegido.getDuracion();
+                        auxiliar.remove(elegido);           // La lista de juegos original debe quedar intacta
+                        pTotal = 0;                         // Se formatea porque arriba se usa el operador (+=)
+
+                        posible = true;
+
+                        break;
+                    }
+                }
+            }
+        }
+
+        variarPorcentajes();
+
+        if(titulo == null) {
+            generarTitulo();
+        }
+    }
+
+    private void variarPorcentajes() {
+        int escogidos = seleccion.size(), total = juegos.size(), no_escogidos = total - escogidos;
+
+        for(Juego juego : juegos) {
+            double porcentaje = juego.getPorcentaje();
+
+            if(seleccion.contains(juego)) {         // Si antes se almacenara la copia, juego != copia, entonces false,
+                seleccion.add(juego.copiar());      // esto mantiene el porcentaje del juego antes de cambiarlo
+                seleccion.remove(juego);            // Los juegos no deben estar repetidos (ya está la copia)
+                juego.restarPorcentaje((porcentaje/total) / escogidos);     // Afecta al juego original
+
+            } else {
+                juego.sumarPorcentaje((porcentaje/total) / no_escogidos);
+            }
+        }
+    }
+
+    private void generarTitulo() {
         double media = 0;
         String mensaje;
 
@@ -143,66 +205,13 @@ public class Encuentro {
             mensaje = "Caos Games";
         }
 
-        return mensaje;
-    }
-
-    private void generarSeleccion() {
-        double porcentaje_total = 0, porcentaje_seleccion = 0;
-        int tiempo_acumulado = 0;
-
-        // Obtener el peso total de los juegos (% total)
-        for (Juego juego : juegos) {
-            porcentaje_total += juego.getPorcentaje();
-        }
-
-        List<Juego> auxiliar = new LinkedList<>(juegos);
-
-        // Aleatorizar los juegos y escogerlos en función de su % y del tiempo restante
-        while(porcentaje_seleccion < 100 && tiempo_acumulado < duracion-30) {
-            double random = Math.random() * porcentaje_total;
-
-            for(int i = 0; i < auxiliar.size(); i++) {
-                Juego elegido = auxiliar.get(i);
-
-                random -= elegido.getPorcentaje();
-
-                int tiempo_aux = tiempo_acumulado + elegido.getDuracion();
-
-                if(random <= 0 && tiempo_aux < duracion) {
-                    seleccion.add(elegido);
-                    porcentaje_seleccion += elegido.getPorcentaje();
-                    tiempo_acumulado += elegido.getDuracion();
-                    auxiliar.remove(elegido);
-                    break;
-                }
-            }
-        }
-
-        variarPorcentajes();
-    }
-
-    private void variarPorcentajes() {
-        int escogidos = seleccion.size(), total = juegos.size(), no_escogidos = total - escogidos;
-
-        for(Juego juego : juegos) {
-            double porcentaje = juego.getPorcentaje();
-
-            if(seleccion.contains(juego)) {         // Si se almacenara la copia antes: juego != copia, entonces false
-                seleccion.add(juego.copiar());      // Esto mantiene el porcentaje del juego antes de cambiarlo
-                seleccion.remove(juego);            // Los juegos no deben estar repetidos (ya está la copia)
-                juego.restarPorcentaje((porcentaje/total) / escogidos);     // Afecta al juego original
-
-            } else {
-                juego.sumarPorcentaje((porcentaje/total) / no_escogidos);
-            }
-        }
+        titulo = mensaje;
     }
 
 
     @Override
     public String toString() {
         StringBuilder mensaje = new StringBuilder();
-        StringBuilder lista = new StringBuilder("[");
 
         mensaje.append(titulo.toUpperCase()).append(" - ");
         mensaje.append(new SimpleDateFormat("(dd-MM-yyyy) (HH:mm)").format(fecha)).append("\n");
@@ -221,19 +230,18 @@ public class Encuentro {
 
         int tiempo = 0;
 
-        for (Juego juego : seleccion) {
-            tiempo += juego.getDuracion();
+        for (int i = 0; i < seleccion.size(); i++) {
+            tiempo += seleccion.get(i).getDuracion();
 
-            if(seleccion.lastIndexOf(juego) != seleccion.size()-1) {
-                lista.append(juego.getNombre()).append(", ");
-
-            } else {
-                lista.append(juego.getNombre()).append("]");
+            if (i < 9) {
+                mensaje.append("0");
             }
+
+            mensaje.append(i+1).append(" - ").append(seleccion.get(i)).append("\n");
         }
 
-        mensaje.append(lista.toString()).append("\n");
-        mensaje.append(tiempo).append(" / ").append(duracion).append(" minutos\n");
+        mensaje.append(tiempo).append(" / ").append(duracion).append(" minutos (");
+        mensaje.append((double) tiempo*100/duracion).append(" %)\n");
 
         return mensaje.toString();
     }

@@ -63,14 +63,6 @@ public class Participante {
         }
     }
 
-    public void addJuego(Juego juego) {
-        juegos.add(juego);
-
-        if(juegos.size() == 1) {
-            this.favorito = juegos.get(0);
-        }
-    }
-
     public Juego getFavorito() {
         return favorito;
     }
@@ -79,11 +71,25 @@ public class Participante {
         this.favorito = favorito;
     }
 
+
+    public void addJuego(Juego juego) {
+        juegos.add(juego);
+
+        if(juegos.size() == 1) {
+            this.favorito = juegos.get(0);
+        }
+    }
+
+    public String getPuntuacion() {
+        return nombre + " - " + puntos + " puntos";
+    }
+
+
     @Override
     public String toString() {
         StringBuilder ficha = new StringBuilder();
 
-        ficha.append(nombre).append(" - ").append(puntos).append(" puntos\n");
+        ficha.append(getPuntuacion()).append("\n");
 
         if (juegos.size() != 0) {
             for (Juego juego : juegos) {
